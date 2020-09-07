@@ -1,20 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:to_do/models/task_models.dart';
+import 'package:provider/provider.dart';
+import 'package:to_do/models/task_data.dart';
 import 'package:to_do/screens/add_task_screen.dart';
 import 'package:to_do/widgets/task_list.dart';
 
-class MyToDo extends StatefulWidget {
-  @override
-  _MyToDoState createState() => _MyToDoState();
-}
-
-class _MyToDoState extends State<MyToDo> {
-  List<Task> tasks = [
-    Task(name: 'Buy Milk'),
-    Task(name: 'Buy Eggs'),
-    Task(name: 'Buy Bread'),
-  ];
-
+class MyToDo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,7 +37,7 @@ class _MyToDoState extends State<MyToDo> {
                       fontWeight: FontWeight.w600),
                 ),
                 Text(
-                  '${tasks.length} Tasks',
+                  '${Provider.of<TaskData>(context).taskCount} Tasks',
                   style: TextStyle(color: Colors.white, fontSize: 18),
                 ),
               ],
@@ -61,7 +51,7 @@ class _MyToDoState extends State<MyToDo> {
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(20.0),
                       topRight: Radius.circular(20.0))),
-              child: TaskList(tasks),
+              child: TaskList(),
             ),
           ),
         ],
@@ -75,14 +65,7 @@ class _MyToDoState extends State<MyToDo> {
               child: Container(
                 padding: EdgeInsets.only(
                     bottom: MediaQuery.of(context).viewInsets.bottom),
-                child: AddTaskScreen(
-                    (newTaskTitle){
-                      setState(() {
-                        tasks.add(Task(name: newTaskTitle));
-                      });
-                      Navigator.pop(context);
-                    }
-                ),
+                child: AddTaskScreen(),
               ),
             ),
           );
